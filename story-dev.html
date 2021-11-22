@@ -53,7 +53,7 @@
             <div class="row my-3">
 
                 <div class="col-12">
-                    <h1 class="text-center main-title">クイズタイトル</h1>
+                    <h1 class="text-center main-title">ストーリーアプリ</h1>
                     <p class="text-center">クイズの説明がはいります</p>
                 </div>
 
@@ -64,13 +64,44 @@
                 <!-- 問題数を表示する領域 -->
 
                 <div class="col-12">
+                    <h1>{{currentStoryData.sceneTitle}}</h1>
+                </div>
 
-                    <h1>{{currentStoryData.title}}</h1>
+                <div class="col-8 offset-2">
+                    <img :src="'images/'+currentStoryData.chapters[currentChapterId].imageUrl" alt="" class="w-100">
+                </div>
+
+                <div class="col-8 offset-2">
+
+                    <h4>{{currentStoryData.chapters[currentChapterId].subtitle}}</h4>
+
+                    <p>{{currentStoryData.chapters[currentChapterId].text}}</p>
 
                 </div>
 
+                <div class="col-8 offset-2" v-if="isChoiceButtonShow">
 
-                <!-- 問題文を表示する領域 -->
+                    <div class="row">
+                        
+                        <div class="col-6 p-2" v-for="choiceData in currentStoryData.choices">
+
+                            <button class="btn btn-primary w-100" @click="choiceButtonClicked(choiceData.nextSceneId)">
+                                {{choiceData.title}}
+                            </button>
+
+                        </div>
+
+                    </div>
+                    
+                </div>
+
+                <div class="col-12 text-center mt-5">
+
+                    <button class="btn btn-primary" @click="prevButtonClicked()">◀ 前の場面へ</button>
+
+                    <button class="btn btn-primary" @click="nextChapterButtonClicked()">次の場面へ ▶
+                    </button>
+                </div>
 
 
                 <!-- 選択肢を表示する領域 -->
@@ -93,20 +124,7 @@
                     
                     <div class="modal-body">
 
-                        <div class="row">
-                            <div class="col-4">
-                                <div class="text-center">
-                                    <img src="./images/trophy.png" class="answer-img">
-                                </div>
-                            </div>
-
-                            <div class="col-8">
-
-                                <p>すべてが終了したときの説明</p>
-
-                            </div>
-
-                        </div>
+                        <p>aaa</p>
         
                     </div>
         
@@ -124,41 +142,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="storyData.js"></script>
+    <script src="main.js"></script>
 
     <script>
 
-        var app = new Vue({
-
-            el: "#app", //Vueを適用する範囲を定義（今回は <div id="app"></div>の中に適用）
-            data: {     //使いたい変数や配列などを定義する    
-                storyList: [],
-                currentLayer: 1,
-                currentStoryid: 0,
-                currentLayerStoryList:[],
-                currentStoryData: []
-            },
-
-            mounted() {         //ページが読み込まれたとき最初に呼ばれる関数
-                //外部ファイルに保存しているストーリーデータを取得する
-                this.storyList = storyListDefine;
-                
-                //初回のデータを取得する
-                this.currentLayerStoryList = this.getCurrentLayerStoryData(1);
-
-                
-            },
-
-            methods: {      //関数を登録する場所
-
-                getCurrentLayerStoryData(layerId){
-                    var datas = [];
-                    const targetDatas = this.storyList.filter((v) => v.layer === layerId); 
-                    return targetDatas;
-                }
-                
-            }
-
-        })
+       
 
     </script>
 
