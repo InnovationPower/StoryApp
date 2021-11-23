@@ -1,213 +1,63 @@
+/* コピーして使う
+// 通常のデータ構造
+{
+    layerId: 0,     //レイヤーのID
+    sceneId: 0,     //シーンのID
+    sceneTitle: "", //シーンのタイトル
+    chapters:[      //チャプターの配列
+        {
+            subtitle: "",   //チャプター1のタイトル
+            text: "",       //チャプター1の説明テキスト
+            imageUrl: ""    //チャプター1に表示する画像のファイル名
+        },
+    ],
+
+    question:{          //分岐する問いの配列
+        title: "",      //問いのタイトル
+        text: "",       //問いの説明テキスト
+        imageUrl: "",   //問いの画像ファイル名
+        choices:[       //選択肢
+            {
+                choiceId: 0,    //選択肢ID
+                title: "",      //選択肢のタイトル
+                text: "",       //選択肢の説明
+                next:{          //次のシーン
+                    layerId: ,  //選択したあとのレイヤーID
+                    sceneId:    //選択したあとのシーンID
+                }
+            }
+        ],
+    }
+},
+
+//最後の問題のデータ構造
+
+{
+    layerId: 0,     //レイヤーID
+    sceneId: 0,     //シーンID
+    sceneTitle: "", //シーンタイトル
+    chapters:[      //チャプターを保存する配列
+        {
+            subtitle: "",   //チャプター1のタイトル
+            text: "",       //チャプター1のテキスト
+            imageUrl: ""    //チャプター1に表示する画像のファイル名
+        },
+    ],
+    isEnd: true,            //最後のレイヤーかどうか, 
+    story:{                 //結末
+        storyTitle: "",     //結末のタイトル（○○エンド）
+        storyMessage: "",   //結末へのコメント
+        storyQuestion: ""   //ワンポイントアドバイスやどうすればよかったかを問うためのテキスト
+    }
+},
+
+*/
+
 function importStoryList(){
 
     const storyListDefine = [
 
-/*== レイヤー 1 ==*/
-        {
-            layer: 1,
-            sceneId: 1,
-            sceneTitle: "ある日の昼休み...",
-            chapters:[
-                {
-                    chapterId: 0,
-                    subtitle: "クラスのみんなでドッジボール",
-                    text: "4年2組のクラスでは、ドッジボールが流行っています。今日もクラスのみんなで楽しくドッジボールをしていました。",
-                    imageUrl: "1.png"
-                },
-                {
-                    chapterId:1,
-                    subtitle: "お昼休みは終わり",
-                    text: "お昼休みはあっという間に終わり、チャイムが鳴ってしまいました。今日はクラスメイトのそうくんのせいで負けてしまいました。",
-                    imageUrl: "2.png"
-                },
-                {
-                    chapterId:2,
-                    subtitle: "誰がボールを片付ける？",
-                    text: "このクラスではボールを片付ける人が決まっていません。負けてイライラしていた自分は、次のように言いました。",
-                    imageUrl: "3.png"
-                },
-            ],
-
-            choices:[
-                {
-                    choiceId: 0,
-                    title: "最後にボールを持っていたたろうくん",
-                    text: "いまボールを持ってるんだからそのまま片付けてほしいな",
-                    nextSceneId: 1
-                },
-                {
-                    choiceId: 1,
-                    title: "ドッジボールをやろうと言った自分",
-                    text: "自分で言い出したのだから、自分で片付けよう",
-                    nextSceneId: 2
-                },
-                {
-                    choiceId: 2,
-                    title: "ミスをしたそうくん",
-                    text: "そうくんのせいで負けたのだから、彼が片付けるべきだ",
-                    nextSceneId: 3
-                },
-            ],
-        },
-
-/*== レイヤー 2 ==*/
-        {
-            layer: 2,
-            sceneId: 1,
-            sceneTitle: "Layer-2, Scene-1",
-            chapters:[
-                {
-                    subtitle: "チャプター1",
-                    text: "これはチャプター1です",
-                    imageUrl: "1.png"
-                },
-                {
-                    subtitle: "チャプター2",
-                    text: "これはチャプター2です",
-                    imageUrl: "2.png"
-                },
-            ],
-
-            choices:[
-                {
-                    choiceId: 0,
-                    title: "選択肢A",
-                    text: "",
-                    nextSceneId: 1
-                },
-                {
-                    choiceId: 1,
-                    title: "",
-                    text: "",
-                    nextSceneId: 1
-                },
-                {
-                    choiceId: 2,
-                    title: "",
-                    text: "",
-                    nextSceneId: 1
-                },
-            ],
-        },
-
-        {
-            layer: 2,
-            sceneId: 2,
-            sceneTitle: "Layer-2, Scence-2",
-            chapters:[
-                {
-                    subtitle: "シーン2 チャプター1",
-                    text: "シーン2, チャプター1です",
-                    imageUrl: "1.png"
-                },
-                {
-                    subtitle: "subtitle",
-                    text: "シーン2, チャプター2です",
-                    imageUrl: "2.png"
-                },
-            ],
-
-            choices:[
-                {
-                    choiceId: 0,
-                    title: "選択肢A",
-                    text: "",
-                    nextSceneId: 1
-                },
-                {
-                    choiceId: 1,
-                    title: "選択肢B",
-                    text: "",
-                    nextSceneId: 1
-                },
-                {
-                    choiceId: 2,
-                    title: "選択肢C",
-                    text: "",
-                    nextSceneId: 1
-                },
-            ],
-        },
-
-        {
-            layer: 2,
-            sceneId: 3,
-            sceneTitle: "title",
-            chapters:[
-                {
-                    subtitle: "subtitle",
-                    text: "text",
-                    imageUrl: "url"
-                },
-                {
-                    subtitle: "subtitle",
-                    text: "text",
-                    imageUrl: "url"
-                },
-            ],
-
-            choices:[
-                {
-                    choiceId: 0,
-                    title: "選択肢A",
-                    text: "",
-                    nextSceneId: 1
-                },
-                {
-                    choiceId: 1,
-                    title: "",
-                    text: "",
-                    nextSceneId: 1
-                },
-                {
-                    choiceId: 2,
-                    title: "",
-                    text: "",
-                    nextSceneId: 1
-                },
-            ],
-        },
-
-/*== レイヤー 3 ==*/
-
-        {
-            layer: 3,
-            sceneId: 1,
-            sceneTitle: "title",
-            chapters:[
-                {
-                    subtitle: "subtitle",
-                    text: "text",
-                    imageUrl: "url"
-                },
-                {
-                    subtitle: "subtitle",
-                    text: "text",
-                    imageUrl: "url"
-                },
-            ],
-
-            choices:[
-                {
-                    choiceId: 0,
-                    title: "選択肢A",
-                    text: "",
-                    nextSceneId: ""
-                },
-                {
-                    choiceId: 1,
-                    title: "",
-                    text: "",
-                    nextSceneId: ""
-                },
-                {
-                    choiceId: 2,
-                    title: "",
-                    text: "",
-                    nextSceneId: ""
-                },
-            ],
-        },
+        //ここにデータ構造を追加していく
 
     ];
 

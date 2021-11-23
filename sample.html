@@ -25,6 +25,8 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/8697af1928.js" crossorigin="anonymous"></script>
+
 
     <!-- CSSの読み込み（いじらない） -->
     <link rel="stylesheet" href="main.css">
@@ -40,7 +42,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-main-green">
         <a class="navbar-brand" href="index.html">
             <img src="images/logo.png" width="30" height="30" class="d-inline-block align-top mr-2" alt="">
-            Quiz App
+            Story App
         </a>
     </nav>
 
@@ -48,52 +50,51 @@
 
         <div class="container">
 
-            <!-- クイズのタイトルを表示する領域 -->
 
-            <div class="row my-3">
-
-                <div class="col-12">
-                    <h1 class="text-center main-title">ストーリーアプリ</h1>
-                    <p class="text-center">クイズの説明がはいります</p>
-                </div>
-
-            </div>
-
-            <div class="row">
-
-                <!-- 問題数を表示する領域 -->
+            <div class="row mt-5">
 
                 <div class="col-12">
-                    <h1>{{currentStoryData.sceneTitle}}</h1>
+                    <h2 class="sceneTitle"><i class="far fa-lightbulb"></i><span>{{currentStoryData.sceneTitle}}</span></h2>
                 </div>
-
-                <div class="col-8 offset-2">
-                    <img :src="'images/'+currentStoryData.chapters[currentChapterId].imageUrl" alt="" class="w-100">
-                </div>
-
-                <div class="col-8 offset-2">
-
-                    <h4>{{currentStoryData.chapters[currentChapterId].subtitle}}</h4>
-
-                    <p>{{currentStoryData.chapters[currentChapterId].text}}</p>
-
-                </div>
-
-                <div class="col-8 offset-2" v-if="isChoiceButtonShow">
-
-                    <div class="row">
+                
+                    <!-- ストーリー進行のタイトルとテキスト、画像を表示するエリア -->
+                    <div class="col-8 offset-2" v-show="!isChoiceButtonShow">
                         
-                        <div class="col-6 p-2" v-for="choiceData in currentStoryData.choices">
+                        <div class="my-2">
+                            <img :src="'images/'+currentStoryData.chapters[currentChapterId].imageUrl" alt="" class="w-100">
+                        </div>
+                        
+                        <h4 class="my-3">{{currentStoryData.chapters[currentChapterId].subtitle}}</h4>
+    
+                        <p>{{currentStoryData.chapters[currentChapterId].text}}</p>
+    
+                    </div>
 
-                            <button class="btn btn-primary w-100" @click="choiceButtonClicked(choiceData.nextSceneId)">
-                                {{choiceData.title}}
-                            </button>
+                    <!-- 選択肢を表示するエリア -->
 
+                    <div class="col-8 offset-2" v-if="isChoiceButtonShow">
+
+                        <div class="my-2">
+                            <img :src="'images/'+currentStoryData.question.imageUrl" alt="" class="w-100">
+                        </div>
+
+                        <h4>{{currentStoryData.question.title}}</h4>
+                        <p>{{currentStoryData.question.text}}</p>
+                        
+
+                        <div class="row">
+                            
+                            <div class="col-6 p-2" v-for="(choice, index) in currentStoryData.question.choices">
+
+                                <button @click="choiceButtonClicked(choice.next.layerId, choice.next.sceneId)" :class="getButtonColor(index)">
+                                    {{choice.title}}
+                                </button>
+
+                            </div>
                         </div>
 
                     </div>
                     
-                </div>
 
                 <div class="col-12 text-center mt-5">
 
@@ -115,8 +116,8 @@
 
          <!-- すべての問題を回答し終わったときに表示するモーダル -->
 
-         <div class="modal fade" id="answerEndedModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+         <div class="modal fade" id="matomeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" v-if="isLastLayer">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         おつかれさまでした！
@@ -124,13 +125,23 @@
                     
                     <div class="modal-body">
 
-                        <p>aaa</p>
+                        <div class="row">
+                            <div class="col-3">
+                                <img src="images/cat2_4_think.png" class="w-100" alt="">
+                            </div>
+                            <div class="col-9">
+                                <h4>{{currentStoryData.story.storyTitle}}エンド</h4>
+                                <p>{{currentStoryData.story.storyMessage}}</p>
         
+                                <h5>考えよう</h5>
+                                <p>{{currentStoryData.story.storyQuestion}}</p>
+                            </div>
+                        </div>
+
                     </div>
         
                     <div class="modal-footer">
-                    
-                        <a href="index.html" class="btn btn-success">クイズ一覧にもどる</a>
+                
                         <a href="#" class="btn btn-primary" @click="reload()">最初から答える</a>
 
                     </div>
@@ -141,14 +152,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-    <script src="storyData.js"></script>
+    <script src="storyDataSample.js"></script>
     <script src="main.js"></script>
-
-    <script>
-
-       
-
-    </script>
 
 </body>
 
